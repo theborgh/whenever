@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 .DS_Store
+
+# private project notes
+notes.md
