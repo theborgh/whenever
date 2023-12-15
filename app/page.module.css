@@ -28,3 +28,8 @@
   outline: none;
   transition: all 0.3s ease;
 }
+
+.form__datetimeContainer {
+  display: flex;
+  justify-content: space-between;
+}
