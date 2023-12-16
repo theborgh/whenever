@@ -40,7 +40,12 @@ export default function FormStepOne() {
         <div className={styles.form__datetimeContainer}>
           <div>
             <div>Range of possible dates for the meeting</div>
-            <DatePicker type="range" allowSingleDateInRange {...form.getInputProps('dateRange')} />
+            <DatePicker
+              type="range"
+              minDate={new Date()}
+              allowSingleDateInRange
+              {...form.getInputProps('dateRange')}
+            />
           </div>
           <div>
             <Select
