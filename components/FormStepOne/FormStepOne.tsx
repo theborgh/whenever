@@ -30,15 +30,15 @@ export default function FormStepOne() {
   return (
     <Box mx="auto">
       <form onSubmit={form.onSubmit((values) => console.log(values))} onReset={form.onReset}>
-        <div className={styles.form__inputContainer}>
+        <div className={styles.inputContainer}>
           <TextInput
             label="Meeting name"
             placeholder="Meeting name"
             {...form.getInputProps('meetingName')}
           />
         </div>
-        <div className={styles.form__datetimeContainer}>
-          <div>
+        <div className={styles.datetimeContainer}>
+          <div className={styles.datepickerContainer}>
             <div>Range of possible dates for the meeting</div>
             <DatePicker
               type="range"
@@ -61,7 +61,7 @@ export default function FormStepOne() {
               {...form.getInputProps('endTime')}
             />
           </div>
-          <div className={styles.form__datetimeContainer}>
+          <div>
             <Select
               label="Your timezone"
               placeholder="Type and select value"
@@ -72,7 +72,7 @@ export default function FormStepOne() {
           </div>
         </div>
         <div className="flex justify-center">
-          <button type="submit" className={styles.form__submit}>
+          <button type="submit" className={styles.submit}>
             Create meeting
           </button>
         </div>

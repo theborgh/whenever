@@ -1,8 +1,8 @@
-.form__inputContainer {
+.inputContainer {
   margin-bottom: 1rem;
 }
 
-.form__submit {
+.submit {
   width: 100%;
   height: 40px;
   margin-top: 1em;
@@ -16,7 +16,17 @@
   transition: all 0.3s ease;
 }
 
-.form__datetimeContainer {
+.datetimeContainer {
   display: flex;
   justify-content: space-between;
+}
+
+.datepickerContainer {
+  align-self: center;
+}
+
+@media screen and (max-width: 768px) {
+  .datetimeContainer {
+    flex-direction: column;
+  }
 }
