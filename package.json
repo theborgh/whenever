@@ -26,10 +26,12 @@
     "@next/bundle-analyzer": "^14.0.1",
     "@tabler/icons-react": "^2.40.0",
     "dayjs": "^1.11.10",
+    "mantine-form-zod-resolver": "^1.0.0",
     "moment-timezone": "^0.5.43",
     "next": "14.0.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",

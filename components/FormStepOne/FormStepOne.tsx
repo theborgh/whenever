@@ -2,28 +2,24 @@
 
 import React from 'react';
 import { Box, Select, TextInput } from '@mantine/core';
+import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
 import { DatePicker } from '@mantine/dates';
-import moment from 'moment-timezone';
+import { schema } from '@/app/schema';
+import { timezones, timezoneGuess } from '@/app/const';
 import styles from './FormStepOne.module.css';
 import '@mantine/dates/styles.css';
 
 export default function FormStepOne() {
-  const timezones = moment.tz.names();
-
   const form = useForm({
     initialValues: {
-      dateRange: [new Date(), new Date(Date.now() + 6 * 24 * 60 * 60 * 1000)],
       meetingName: 'New meeting',
+      dateRange: [new Date(), new Date(Date.now() + 6 * 24 * 60 * 60 * 1000)],
       startTime: '9:00',
       endTime: '18:00',
-      timezone: moment.tz.guess(),
+      timezone: timezoneGuess,
     },
-
-    validate: {
-      meetingName: (value) => (value.length > 0 ? null : 'Meeting name is required'),
-      timezone: (value) => (timezones.includes(value) ? null : 'Invalid timezone'),
-    },
+    validate: zodResolver(schema),
     validateInputOnChange: true,
   });
 
