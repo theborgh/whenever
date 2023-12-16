@@ -20,3 +20,5 @@ export const schema = z
   message: 'Invalid timezone: please pick from the list',
   path: ['timezone'],
 });
+
+export type EmptyMeetingType = z.infer<typeof schema>;

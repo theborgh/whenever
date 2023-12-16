@@ -7,6 +7,7 @@ import { useForm } from '@mantine/form';
 import { DatePicker } from '@mantine/dates';
 import { schema } from '@/app/schema';
 import { timezones, timezoneGuess } from '@/app/const';
+import { createEmptyMeeting } from './utils';
 import styles from './FormStepOne.module.css';
 import '@mantine/dates/styles.css';
 
@@ -25,7 +26,7 @@ export default function FormStepOne() {
 
   return (
     <Box mx="auto">
-      <form onSubmit={form.onSubmit((values) => console.log(values))} onReset={form.onReset}>
+      <form onSubmit={form.onSubmit((values) => createEmptyMeeting(values))} onReset={form.onReset}>
         <div className={styles.inputContainer}>
           <TextInput
             label="Meeting name"

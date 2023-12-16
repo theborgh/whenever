@@ -13,6 +13,7 @@ datasource db {
 model Meeting {
   id             String             @id @default(cuid())
   name           String
+  timezone       String // preferred timezone for the meeting, it will always be displayed in this timezone
   startDay       DateTime
   endDay         DateTime           @default(now())
   startTime      Int // in 15-minute increments from midnight, 0-95  
