@@ -25,6 +25,7 @@
     "@mantine/hooks": "7.3.2",
     "@next/bundle-analyzer": "^14.0.1",
     "@tabler/icons-react": "^2.40.0",
+    "dayjs": "^1.11.10",
     "moment-timezone": "^0.5.43",
     "next": "14.0.1",
     "react": "18.2.0",
