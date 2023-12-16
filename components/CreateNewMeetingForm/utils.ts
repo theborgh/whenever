@@ -1,11 +1,11 @@
 'use server';
 
-import { prisma } from '@/db';
-import { EmptyMeetingType } from '@/app/schema';
 import { convertTimeStringToInt } from '@/utils';
+import { EmptyMeetingType } from '@/app/schema';
+import { prisma } from '@/db';
 
 export const createEmptyMeeting = async (data: EmptyMeetingType) => {
-  await prisma.meeting.create({
+  const response = await prisma.meeting.create({
     data: {
       name: data.meetingName,
       startDay: data.dateRange[0] ?? '',
@@ -15,4 +15,6 @@ export const createEmptyMeeting = async (data: EmptyMeetingType) => {
       timezone: data.timezone,
     },
   });
+
+  return response;
 };

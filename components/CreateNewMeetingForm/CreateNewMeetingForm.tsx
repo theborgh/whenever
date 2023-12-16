@@ -5,13 +5,15 @@ import { Box, Select, TextInput } from '@mantine/core';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
 import { DatePicker } from '@mantine/dates';
-import { schema } from '@/app/schema';
+import { schema, EmptyMeetingType } from '@/app/schema';
 import { timezones, timezoneGuess } from '@/app/const';
 import { createEmptyMeeting } from './utils';
-import styles from './FormStepOne.module.css';
+import { useRouter } from 'next/navigation';
+import styles from './CreateNewMeetingForm.module.css';
 import '@mantine/dates/styles.css';
 
-export default function FormStepOne() {
+export default function CreateNewMeetingForm() {
+  const router = useRouter();
   const form = useForm({
     initialValues: {
       meetingName: 'New meeting',
@@ -24,9 +26,17 @@ export default function FormStepOne() {
     validateInputOnChange: true,
   });
 
+  const handleFormSubmit = async (values: EmptyMeetingType) => {
+    const res = await createEmptyMeeting(values);
+
+    console.log(res);
+
+    router.push(`/meeting/${res.id}`);
+  };
+
   return (
     <Box mx="auto">
-      <form onSubmit={form.onSubmit((values) => createEmptyMeeting(values))} onReset={form.onReset}>
+      <form onSubmit={form.onSubmit(handleFormSubmit)} onReset={form.onReset}>
         <div className={styles.inputContainer}>
           <TextInput
             label="Meeting name"
