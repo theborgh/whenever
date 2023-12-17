@@ -1,0 +1,18 @@
+.container {
+  padding: 50px;
+}
+
+.elements-container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px;
+}
+
+.element {
+  width: 100px;
+  height: 20px;
+  border: 1px solid black;
+}
+
+.selected {
+  background-color: chocolate;
+}
