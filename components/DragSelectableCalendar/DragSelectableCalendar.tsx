@@ -3,25 +3,20 @@ import Selecto from 'react-selecto';
 import CalendarSlotsContainer from '../CalendarSlotsContainer/CalendarSlotsContainer';
 import './DragSelectableCalendar.css';
 import { convertIntToTimeString } from '@/utils';
-import { Meeting } from '@prisma/client';
-
-interface Slot {
-  dayIndex: number;
-  slotArray: number[];
-}
+import { Meeting, User } from '@prisma/client';
+import { Slot, updateTimeslots } from './utils';
 
 interface DragSelectableCalendarProps {
   meetingData: Meeting;
+  user: User;
 }
 
-export default function DragSelectableCalendar({ meetingData }: DragSelectableCalendarProps) {
+export default function DragSelectableCalendar({ meetingData, user }: DragSelectableCalendarProps) {
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [selectableTargets, setSelectableTargets] = useState<(string | HTMLElement | null)[]>([]);
   const [selectedIndices, setSelectedIndices] = useState<Slot[]>([]);
   let tmpSelectedIndices = [...selectedIndices];
   const { startDay, endDay, startTime, endTime } = meetingData;
-
-  console.log('selectedIndices', selectedIndices);
 
   useEffect(() => {
     setContainer(document.body);
@@ -77,7 +72,7 @@ export default function DragSelectableCalendar({ meetingData }: DragSelectableCa
               const slot = tmpSelectedIndices.splice(slotIndex, 1)[0];
               const dayObj: Slot = {
                 dayIndex: dayIndex,
-                slotArray: [...slot.slotArray, rowIndex],
+                slotArray: [...slot.slotArray, rowIndex].sort((a, b) => a - b),
               };
 
               tmpSelectedIndices.push(dayObj);
@@ -107,6 +102,8 @@ export default function DragSelectableCalendar({ meetingData }: DragSelectableCa
         onDragEnd={() => {
           setSelectedIndices(tmpSelectedIndices);
           // save to db
+
+          updateTimeslots(meetingData, user.id, tmpSelectedIndices);
         }}
       />
 

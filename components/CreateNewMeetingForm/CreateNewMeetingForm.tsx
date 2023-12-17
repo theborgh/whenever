@@ -20,7 +20,7 @@ export default function CreateNewMeetingForm() {
       meetingName: 'New meeting',
       dateRange: [new Date(), new Date(Date.now() + 6 * 24 * 60 * 60 * 1000)],
       startTime: '9:00',
-      endTime: '18:00',
+      endTime: '17:00',
       timezone: timezoneGuess,
     },
     validate: zodResolver(schema),

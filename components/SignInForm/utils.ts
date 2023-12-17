@@ -32,8 +32,6 @@ export const loginWithCredentials = async (meetingId: string, userTimezone: stri
     );
   }
 
-  console.log('response to user search: ', response);
-
   // if user already exists and no password was provided, throw error and ask for password.
   if (response.password && !data.userPassword) {
     throw new Error('Password is required for returning users.');

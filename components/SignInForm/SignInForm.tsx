@@ -7,6 +7,7 @@ import { loginWithCredentials } from '@/components/SignInForm/utils';
 import { timezones, timezoneGuess } from '@/app/const';
 import styles from './SignInForm.module.css';
 import '@mantine/dates/styles.css';
+import { User } from '@prisma/client';
 
 export interface LoginType {
   userName: string;
@@ -15,7 +16,7 @@ export interface LoginType {
 
 interface SignInProps {
   meetingId: string;
-  handleIsLogged: () => void;
+  handleIsLogged: (userData: User) => void;
 }
 
 export default function SignIn({ meetingId, handleIsLogged }: SignInProps) {
@@ -48,7 +49,7 @@ export default function SignIn({ meetingId, handleIsLogged }: SignInProps) {
     console.log('user data is: ', userData);
 
     if (userData) {
-      handleIsLogged();
+      handleIsLogged(userData);
     }
   };
 
