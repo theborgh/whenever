@@ -20,7 +20,7 @@ export default async function MeetingPage({ params }: { params: { id: string } }
       <div>
         <div>Sign in form</div>
         <div>
-          <h2>Group availability (client component)</h2>
+          <h2>Group availability</h2>
           <DragSelectableCalendar />
         </div>
       </div>

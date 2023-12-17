@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Selecto from 'react-selecto';
 import './DragSelectableCalendar.css';
+import { convertIntToTimeString } from '@/utils';
 
 export default function DragSelectableCalendar() {
   const [container, setContainer] = useState<HTMLElement | null>(null);
@@ -12,6 +13,11 @@ export default function DragSelectableCalendar() {
     setContainer(document.body);
     setSelectableTargets(['.target', document.querySelector('.target2') as HTMLElement]);
   }, []);
+
+  const daysToDisplay = 4;
+  const rowsToDisplay = 16;
+  const startTime = 32;
+  const endTime = 64;
 
   if (!container || !selectableTargets.length) return null;
 
@@ -46,10 +52,19 @@ export default function DragSelectableCalendar() {
         }}
       />
 
-      <div id="elements-container" className="elements-container">
-        {Array.from({ length: 16 }, (_, i) => (
-          <div data-testid={`grid-cell-${i}`} key={i} className={`element`} />
-        ))}
+      <div className="calendarContainer">
+        <div className="timesOfDayContainer">
+          {Array.from({ length: rowsToDisplay }, (_, i) => (
+            <div className="timeOfDay" key={i}>
+              {convertIntToTimeString(i + startTime)}
+            </div>
+          ))}
+        </div>
+        <div id="elements-container" className="elements-container">
+          {Array.from({ length: daysToDisplay * rowsToDisplay }, (_, i) => (
+            <div data-testid={`grid-cell-${i}`} key={i} className={`element`} />
+          ))}
+        </div>
       </div>
     </div>
   );
