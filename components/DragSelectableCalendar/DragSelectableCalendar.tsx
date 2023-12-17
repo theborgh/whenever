@@ -8,7 +8,7 @@ import { convertIntToTimeString } from '@/utils';
 
 interface Slot {
   dayIndex: number;
-  rowIndex: number;
+  slotArray: number[];
 }
 
 export default function DragSelectableCalendar() {
@@ -56,12 +56,30 @@ export default function DragSelectableCalendar() {
           e.added.forEach((el: HTMLElement) => {
             el.classList.toggle('selected');
             const testid = el.dataset!.testid ?? 'invalid';
-            const testIdObj = {
-              dayIndex: Number(testid.split('-')[1]),
-              rowIndex: Number(testid.split('-')[3]),
-            };
+            const dayIndex = Number(testid.split('-')[1]);
+            const rowIndex = Number(testid.split('-')[3]);
 
-            tmpSelectedIndices = [...tmpSelectedIndices, testIdObj];
+            const slotIndex = tmpSelectedIndices.findIndex((slot) => slot.dayIndex === dayIndex);
+
+            if (slotIndex !== -1) {
+              console.log('slotIndex: ', slotIndex);
+              const slot = tmpSelectedIndices.splice(slotIndex, 1)[0];
+              const dayObj: Slot = {
+                dayIndex: dayIndex,
+                slotArray: [...slot.slotArray, rowIndex],
+              };
+
+              tmpSelectedIndices.push(dayObj);
+            } else {
+              const dayObj: Slot = {
+                dayIndex: dayIndex,
+                slotArray: [rowIndex],
+              };
+
+              tmpSelectedIndices.push(dayObj);
+            }
+
+            console.log('tmpSelectedIndices', tmpSelectedIndices);
           });
 
           e.removed.forEach((el: HTMLElement) => {
