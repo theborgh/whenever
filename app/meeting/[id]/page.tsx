@@ -19,7 +19,9 @@ export default async function MeetingPage({ params }: { params: { id: string } }
     <div>
       {/* <h1>{meetingData?.name}</h1> */}
       <div className={styles.meetingContainer}>
-        <div>Sign in form</div>
+        <div>
+          <h2>Sign in to add your availability</h2>
+        </div>
         <div>
           <h2>Group availability</h2>
           <DragSelectableCalendar />

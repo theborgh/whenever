@@ -2,13 +2,6 @@
   padding: 50px;
 }
 
-.elements-container {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(16, 20px);
-}
-
 .element {
   width: 80px;
   height: 20px;
@@ -21,14 +14,32 @@
 
 .calendarContainer {
   display: flex;
+  flex-direction: column;
+}
+
+.dayNamesContainer {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.dayName {
+  text-align: center;
+  width: 80px;
+  font-size: smaller;
+}
+
+.timesContainer {
+  display: flex;
+  font-size: smaller;
 }
 
 .timesOfDayContainer {
   display: grid;
   grid-template-rows: repeat(16, 20px);
-  margin-right: 0.5rem;
 }
 
 .timeOfDay {
   height: 20px;
+  width: 80px;
+  text-align: center;
 }

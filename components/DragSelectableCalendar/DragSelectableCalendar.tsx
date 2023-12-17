@@ -24,9 +24,21 @@ export default function DragSelectableCalendar() {
     setSelectableTargets(['.target', document.querySelector('.target2') as HTMLElement]);
   }, []);
 
-  const daysToDisplay = 5;
+  // tmp variables before I hook up to db
+  const startDate = new Date();
+  const endDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000);
+  const daysToDisplay = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
   const startTime = '9:00';
   const endTime = '17:00';
+
+  const dayNamesFromStartDate = Array.from({ length: daysToDisplay }, (_, i) =>
+    new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+    })
+  );
+  dayNamesFromStartDate.unshift('Time');
 
   if (!container || !selectableTargets.length) return null;
 
@@ -98,20 +110,29 @@ export default function DragSelectableCalendar() {
       />
 
       <div className="calendarContainer">
-        <div className="timesOfDayContainer">
-          {Array.from(
-            { length: convertTimeStringToInt(endTime) - convertTimeStringToInt(startTime) },
-            (_, i) => (
-              <div className="timeOfDay" key={i}>
-                {convertIntToTimeString(convertTimeStringToInt(startTime) + i)}
-              </div>
-            )
-          )}
+        <div className="dayNamesContainer">
+          {dayNamesFromStartDate.map((day, i) => (
+            <div className="dayName" key={i}>
+              {day}
+            </div>
+          ))}
         </div>
-        <CalendarSlotsContainer
-          daysToDisplay={daysToDisplay}
-          rowsToDisplay={convertTimeStringToInt(endTime) - convertTimeStringToInt(startTime)}
-        />
+        <div className="timesContainer">
+          <div className="timesOfDayContainer">
+            {Array.from(
+              { length: convertTimeStringToInt(endTime) - convertTimeStringToInt(startTime) },
+              (_, i) => (
+                <div className="timeOfDay" key={i}>
+                  {convertIntToTimeString(convertTimeStringToInt(startTime) + i)}
+                </div>
+              )
+            )}
+          </div>
+          <CalendarSlotsContainer
+            daysToDisplay={daysToDisplay}
+            rowsToDisplay={convertTimeStringToInt(endTime) - convertTimeStringToInt(startTime)}
+          />
+        </div>
       </div>
     </div>
   );
