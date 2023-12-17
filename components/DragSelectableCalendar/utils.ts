@@ -25,7 +25,7 @@ const constructTimeSlots = (meeting: Meeting, selectedIndices: Slot[]) => {
 
   // aggregate all the time slots, so that if there is one from 2-3 and one from 3-4 from the same day, it becomes one from 2-4
   const aggregatedTimeSlots = timeSlots.map((daySlots) => {
-    const aggregatedSlots = daySlots.reduce((acc, curr) => {
+    const aggregatedSlots = daySlots.reduce<(typeof daySlots)>((acc, curr) => {
       const lastSlot = acc[acc.length - 1];
       if (lastSlot && lastSlot.endTime === curr.startTime) {
         lastSlot.endTime = curr.endTime;
