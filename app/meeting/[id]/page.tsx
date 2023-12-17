@@ -9,8 +9,9 @@ import { Meeting, User } from '@prisma/client';
 import GroupCalendar from '@/components/GroupCalendar/GroupCalendar';
 
 export default function MeetingPage({ params }: { params: { id: string } }) {
-  const [meetingData, setMeetingData] = useState<Meeting | null>(null);
+  const [meetingData, setMeetingData] = useState<any>(null); // TODO: Meeting | null or return type of prismas findMeetingById
   const [user, setUser] = useState<User | null>(null);
+  const [debugToggle, setDebugToggle] = useState(false); // TODO: remove this, just for testing
 
   const handleIsLogged = (userData: User) => {
     setUser(userData);
@@ -20,11 +21,13 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
     if (params.id) {
       const fetchData = async () => {
         setMeetingData(await findMeetingById(params.id));
+
+        console.log('meeting data is: ', meetingData);
       };
 
       fetchData();
     }
-  }, []);
+  }, [debugToggle]);
 
   if (!params.id || !meetingData) {
     return <div>Meeting not found</div>;
@@ -32,6 +35,7 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
 
   return (
     <div>
+      <button onClick={() => setDebugToggle(!debugToggle)}>Debug</button>
       <h1 className={styles.meetingName}>Meeting times for {meetingData?.name}</h1>
       <div className={styles.meetingContainer}>
         <div>
