@@ -48,41 +48,23 @@ export const updateTimeslots = async (meeting: Meeting, userId: string, selected
 
   console.log('aggregated time slots: ', timeSlots);
 
-  // create new timeslot
-  // const newTimeSlot = await prisma.timeSlot.create({
-  //   data: {
-  //     day: new Date(), // replace with the actual day
-  //     startTime: 2, // replace
-  //     endTime: 4, // replace
-  //     availability: {
-  //       connect: {
-  //         id: userId, // works because userAvailabilityId is same as userId by design
-  //       },
-  //     },
-  //   },
-  // });
+  // delete all the old timeslots with the same availabilityId
+  await prisma.timeSlot.deleteMany({
+    where: {
+      availabilityId: userId,
+    },
+  });
+
+  // create the new timeslots in the database
+  result = await prisma.timeSlot.createMany({
+    data: timeSlots.map((slot) => ({
+      day: slot.day,
+      startTime: slot.startTime + meeting.startTime,
+      endTime: slot.endTime + meeting.startTime,
+      availabilityId: userId,
+    })),
+    skipDuplicates: true,
+  });
 
   return result;
-  
-  // await prisma.meeting.update({
-  //   where: {
-  //     id: meetingId,
-  //   },
-  //   data: {
-  //     users: {
-  //       update: {
-  //         where: {
-  //           id: userId,
-  //         },
-  //         data: {
-  //           availability: {
-  //             update: {
-  //               timeRanges: {
-                  
-  //           },
-  //         },
-  //       },
-  //     }
-  //   },
-  // });
 }
