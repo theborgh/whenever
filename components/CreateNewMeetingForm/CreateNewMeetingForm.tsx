@@ -70,7 +70,7 @@ export default function CreateNewMeetingForm() {
           </div>
           <div>
             <Select
-              label="Your timezone"
+              label="Meeting timezone"
               placeholder="Type and select value"
               data={[...timezones]}
               searchable

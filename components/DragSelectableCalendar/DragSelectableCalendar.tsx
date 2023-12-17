@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Selecto from 'react-selecto';
 import CalendarSlotsContainer from './CalendarSlotsContainer/CalendarSlotsContainer';
 import './DragSelectableCalendar.css';
-import { convertIntToTimeString } from '@/utils';
+import { convertIntToTimeString, convertTimeStringToInt } from '@/utils';
 
 interface Slot {
   dayIndex: number;
@@ -25,9 +25,8 @@ export default function DragSelectableCalendar() {
   }, []);
 
   const daysToDisplay = 5;
-  const rowsToDisplay = 16;
-  const startTime = 32;
-  const endTime = 64;
+  const startTime = '9:00';
+  const endTime = '17:00';
 
   if (!container || !selectableTargets.length) return null;
 
@@ -94,18 +93,25 @@ export default function DragSelectableCalendar() {
         }}
         onDragEnd={() => {
           setSelectedIndices(tmpSelectedIndices);
+          // save to db
         }}
       />
 
       <div className="calendarContainer">
         <div className="timesOfDayContainer">
-          {Array.from({ length: rowsToDisplay }, (_, i) => (
-            <div className="timeOfDay" key={i}>
-              {convertIntToTimeString(i + startTime)}
-            </div>
-          ))}
+          {Array.from(
+            { length: convertTimeStringToInt(endTime) - convertTimeStringToInt(startTime) },
+            (_, i) => (
+              <div className="timeOfDay" key={i}>
+                {convertIntToTimeString(convertTimeStringToInt(startTime) + i)}
+              </div>
+            )
+          )}
         </div>
-        <CalendarSlotsContainer daysToDisplay={daysToDisplay} rowsToDisplay={rowsToDisplay} />
+        <CalendarSlotsContainer
+          daysToDisplay={daysToDisplay}
+          rowsToDisplay={convertTimeStringToInt(endTime) - convertTimeStringToInt(startTime)}
+        />
       </div>
     </div>
   );
