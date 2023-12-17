@@ -4,11 +4,15 @@ import React, { useEffect, useState } from 'react';
 import Selecto from 'react-selecto';
 import './DragSelectableCalendar.css';
 import { convertIntToTimeString } from '@/utils';
+import { set } from 'zod';
 
 export default function DragSelectableCalendar() {
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [selectableTargets, setSelectableTargets] = useState<(string | HTMLElement | null)[]>([]);
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
+  const tmpSelectedIndices = [...selectedIndices];
+
+  console.log('selectedIndices', selectedIndices);
 
   useEffect(() => {
     setContainer(document.body);
@@ -46,13 +50,18 @@ export default function DragSelectableCalendar() {
         onSelect={(e) => {
           e.added.forEach((el) => {
             el.classList.toggle('selected');
+            tmpSelectedIndices.push(parseInt(el.dataset.testid.split('-')[2]));
           });
           e.removed.forEach((el) => {
             el.classList.toggle('selected');
+            tmpSelectedIndices.splice(
+              tmpSelectedIndices.indexOf(parseInt(el.dataset.testid.split('-')[2])),
+              1
+            );
           });
         }}
         onDragEnd={(e) => {
-          console.log('dragEnd', e);
+          setSelectedIndices(tmpSelectedIndices);
         }}
       />
 
