@@ -16,6 +16,10 @@
   transition: all 0.3s ease;
 }
 
+.submit:hover {
+  background-color: #444;
+}
+
 .datetimeContainer {
   display: flex;
   justify-content: space-between;
