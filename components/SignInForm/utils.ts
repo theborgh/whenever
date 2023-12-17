@@ -17,13 +17,11 @@ export const loginWithCredentials = async (meetingId: string, userTimezone: stri
         name: data.userName,
         password: data.userPassword,
         timezone: userTimezone,
-        meetings: {
-          connect: {
-            id: meetingId,
-          },
+        meetingId: meetingId,
+        userAvailabilityId: `${meetingId}-${data.userName}`,
         },
       },
-    });
+    );
   }
 
   console.log('response to user search: ', response);
