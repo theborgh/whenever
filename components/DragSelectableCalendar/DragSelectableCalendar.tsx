@@ -7,7 +7,7 @@ import { Meeting, User } from '@prisma/client';
 import { Slot, updateTimeslots } from './utils';
 
 interface DragSelectableCalendarProps {
-  meetingData: Meeting;
+  meetingData: any; // TODO: type this
   user: User;
 }
 
@@ -23,12 +23,9 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
     setSelectableTargets(['.target', document.querySelector('.target2') as HTMLElement]);
   }, []);
 
-  // tmp variables before I hook up to db
-  const startDate = new Date();
   const daysToDisplay = Math.floor((endDay.getTime() - startDay.getTime()) / (1000 * 3600 * 24));
-
   const dayNamesFromStartDate = Array.from({ length: daysToDisplay }, (_, i) =>
-    new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
+    new Date(startDay.getTime() + i * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
       weekday: 'short',
       day: 'numeric',
       month: 'short',
@@ -127,6 +124,7 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
             daysToDisplay={daysToDisplay}
             rowsToDisplay={endTime - startTime}
             dragSelectable={true}
+            meetingData={meetingData}
           />
         </div>
       </div>
