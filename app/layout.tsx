@@ -5,6 +5,7 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import { theme } from '../theme';
 import styles from './layout.module.css';
+import '@/app/global.css';
 
 export const metadata = {
   title: 'Whenever',

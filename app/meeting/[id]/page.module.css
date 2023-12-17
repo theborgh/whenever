@@ -4,6 +4,10 @@
   gap: 1rem;
 }
 
+.meetingName {
+  text-align: center;
+}
+
 .groupAvailability {
   /* display: flex;
   flex-direction: column;

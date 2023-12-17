@@ -7,23 +7,22 @@ import SignInForm from '@/components/SignInForm/SignInForm';
 export default async function MeetingPage({ params }: { params: { id: string } }) {
   let meetingData;
 
-  // if (params.id) {
-  //   meetingData = await prisma.meeting.findUnique({
-  //     where: {
-  //       id: params.id,
-  //     },
-  //   });
-  //   console.log('fetched the meeting: ', meetingData);
-  // }
+  if (params.id) {
+    meetingData = await prisma.meeting.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+  }
 
   return (
     <div>
-      {/* <h1>{meetingData?.name}</h1> */}
+      <h1 className={styles.meetingName}>Meeting times for {meetingData?.name}</h1>
       <div className={styles.meetingContainer}>
         <div>
           <h2>Sign in to add your availability</h2>
           <div>
-            <SignInForm />
+            <SignInForm meetingId={params.id} />
           </div>
         </div>
         <div className={styles.groupAvailability}>
