@@ -2,6 +2,7 @@ import React from 'react';
 import { prisma } from '@/db';
 import DragSelectableCalendar from '@/components/DragSelectableCalendar/DragSelectableCalendar';
 import styles from './page.module.css';
+import SignInForm from '@/components/SignInForm/SignInForm';
 
 export default async function MeetingPage({ params }: { params: { id: string } }) {
   let meetingData;
@@ -21,8 +22,11 @@ export default async function MeetingPage({ params }: { params: { id: string } }
       <div className={styles.meetingContainer}>
         <div>
           <h2>Sign in to add your availability</h2>
+          <div>
+            <SignInForm />
+          </div>
         </div>
-        <div>
+        <div className={styles.groupAvailability}>
           <h2>Group availability</h2>
           <DragSelectableCalendar />
         </div>

@@ -1,4 +1,12 @@
 .meetingContainer {
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
+}
+
+.groupAvailability {
+  /* display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center; */
 }
