@@ -62,7 +62,6 @@ export default function DragSelectableCalendar() {
             const slotIndex = tmpSelectedIndices.findIndex((slot) => slot.dayIndex === dayIndex);
 
             if (slotIndex !== -1) {
-              console.log('slotIndex: ', slotIndex);
               const slot = tmpSelectedIndices.splice(slotIndex, 1)[0];
               const dayObj: Slot = {
                 dayIndex: dayIndex,
@@ -78,18 +77,19 @@ export default function DragSelectableCalendar() {
 
               tmpSelectedIndices.push(dayObj);
             }
-
-            console.log('tmpSelectedIndices', tmpSelectedIndices);
           });
 
           e.removed.forEach((el: HTMLElement) => {
             el.classList.toggle('selected');
             const testid = el.dataset!.testid ?? 'invalid';
-            const testIdObj = {
-              dayIndex: Number(testid.split('-')[1]),
-              rowIndex: Number(testid.split('-')[3]),
-            };
-            tmpSelectedIndices.splice(tmpSelectedIndices.indexOf(testIdObj), 1);
+            const dayIndex = Number(testid.split('-')[1]);
+            const rowIndex = Number(testid.split('-')[3]);
+            const slotIndex = tmpSelectedIndices.findIndex((slot) => slot.dayIndex === dayIndex);
+
+            tmpSelectedIndices[slotIndex].slotArray.splice(
+              tmpSelectedIndices[slotIndex].slotArray.indexOf(rowIndex),
+              1
+            );
           });
         }}
         onDragEnd={() => {
