@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Select, TextInput } from '@mantine/core';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
@@ -13,6 +13,7 @@ import styles from './CreateNewMeetingForm.module.css';
 import '@mantine/dates/styles.css';
 
 export default function CreateNewMeetingForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const form = useForm({
     initialValues: {
@@ -27,9 +28,9 @@ export default function CreateNewMeetingForm() {
   });
 
   const handleFormSubmit = async (values: EmptyMeetingType) => {
+    setIsLoading(true);
     const res = await createEmptyMeeting(values);
-
-    console.log(res);
+    setIsLoading(false);
 
     router.push(`/meeting/${res.id}`);
   };
@@ -79,8 +80,12 @@ export default function CreateNewMeetingForm() {
           </div>
         </div>
         <div className="flex justify-center">
-          <button type="submit" className={styles.submit}>
-            Create meeting
+          <button
+            disabled={isLoading}
+            type="submit"
+            className={`${styles.submit} ${isLoading && styles.loading}`}
+          >
+            {isLoading ? 'Creating new meeting...' : 'Create meeting'}
           </button>
         </div>
       </form>

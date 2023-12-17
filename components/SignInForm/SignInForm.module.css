@@ -4,6 +4,10 @@
   align-self: center;
 }
 
+.loading {
+  cursor: default;
+}
+
 .submit {
   width: 100%;
   height: 40px;

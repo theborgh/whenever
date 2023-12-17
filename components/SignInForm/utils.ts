@@ -11,6 +11,14 @@ export const loginWithCredentials = async (meetingId: string, userTimezone: stri
   });
 
   if (!response) {
+      await prisma.userAvailability.create({
+        data: {
+          id: `${meetingId}-${data.userName}`,
+          meetingId: meetingId,
+          userId: `${meetingId}-${data.userName}`,
+        },
+      });
+
     response = await prisma.user.create({
       data: {
         id: `${meetingId}-${data.userName}`,

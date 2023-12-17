@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import { useState } from 'react';
 import { Box, Select, TextInput, PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { loginWithCredentials } from '@/components/SignInForm/utils';
 import { timezones, timezoneGuess } from '@/app/const';
 import styles from './SignInForm.module.css';
 import '@mantine/dates/styles.css';
+import { set } from 'zod';
 
 export interface LoginType {
   userName: string;
@@ -18,6 +19,7 @@ interface SignInProps {
 }
 
 export default function SignIn({ meetingId }: SignInProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     initialValues: {
       userName: '',
@@ -35,9 +37,12 @@ export default function SignIn({ meetingId }: SignInProps) {
     let userData;
 
     try {
+      setIsLoading(true);
       userData = await loginWithCredentials(meetingId, form.values.userTimezone, values);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
 
     console.log('user data is: ', userData);
@@ -79,8 +84,12 @@ export default function SignIn({ meetingId }: SignInProps) {
           </div>
 
           <div className="flex justify-center">
-            <button type="submit" className={styles.submit}>
-              Login
+            <button
+              disabled={isLoading}
+              type="submit"
+              className={`${styles.submit} ${isLoading && styles.loading}`}
+            >
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
           </div>
         </form>

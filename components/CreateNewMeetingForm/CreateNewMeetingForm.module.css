@@ -16,6 +16,10 @@
   transition: all 0.3s ease;
 }
 
+.loading {
+  cursor: default;
+}
+
 .submit:hover {
   background-color: #444;
 }
