@@ -8,6 +8,7 @@ import { convertIntToTimeString } from '@/utils';
 export default function DragSelectableCalendar() {
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [selectableTargets, setSelectableTargets] = useState<(string | HTMLElement | null)[]>([]);
+  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
 
   useEffect(() => {
     setContainer(document.body);
@@ -49,6 +50,9 @@ export default function DragSelectableCalendar() {
           e.removed.forEach((el) => {
             el.classList.toggle('selected');
           });
+        }}
+        onDragEnd={(e) => {
+          console.log('dragEnd', e);
         }}
       />
 

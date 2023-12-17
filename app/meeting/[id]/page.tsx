@@ -1,6 +1,7 @@
 import React from 'react';
 import { prisma } from '@/db';
 import DragSelectableCalendar from '@/components/DragSelectableCalendar/DragSelectableCalendar';
+import styles from './page.module.css';
 
 export default async function MeetingPage({ params }: { params: { id: string } }) {
   let meetingData;
@@ -17,7 +18,7 @@ export default async function MeetingPage({ params }: { params: { id: string } }
   return (
     <div>
       {/* <h1>{meetingData?.name}</h1> */}
-      <div>
+      <div className={styles.meetingContainer}>
         <div>Sign in form</div>
         <div>
           <h2>Group availability</h2>
