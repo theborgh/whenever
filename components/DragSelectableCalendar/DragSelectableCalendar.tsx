@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import Selecto from 'react-selecto';
+import CalendarSlotsContainer from './CalendarSlotsContainer/CalendarSlotsContainer';
 import './DragSelectableCalendar.css';
 import { convertIntToTimeString } from '@/utils';
-import { set } from 'zod';
 
 export default function DragSelectableCalendar() {
   const [container, setContainer] = useState<HTMLElement | null>(null);
@@ -19,7 +19,7 @@ export default function DragSelectableCalendar() {
     setSelectableTargets(['.target', document.querySelector('.target2') as HTMLElement]);
   }, []);
 
-  const daysToDisplay = 4;
+  const daysToDisplay = 5;
   const rowsToDisplay = 16;
   const startTime = 32;
   const endTime = 64;
@@ -73,11 +73,7 @@ export default function DragSelectableCalendar() {
             </div>
           ))}
         </div>
-        <div id="elements-container" className="elements-container">
-          {Array.from({ length: daysToDisplay * rowsToDisplay }, (_, i) => (
-            <div data-testid={`grid-cell-${i}`} key={i} className={`element`} />
-          ))}
-        </div>
+        <CalendarSlotsContainer daysToDisplay={daysToDisplay} rowsToDisplay={rowsToDisplay} />
       </div>
     </div>
   );
