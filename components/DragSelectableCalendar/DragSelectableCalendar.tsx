@@ -1,21 +1,25 @@
-'use client';
-
 import React, { useEffect, useState } from 'react';
 import Selecto from 'react-selecto';
 import CalendarSlotsContainer from './CalendarSlotsContainer/CalendarSlotsContainer';
 import './DragSelectableCalendar.css';
 import { convertIntToTimeString, convertTimeStringToInt } from '@/utils';
+import { Meeting } from '@prisma/client';
 
 interface Slot {
   dayIndex: number;
   slotArray: number[];
 }
 
-export default function DragSelectableCalendar() {
+interface DragSelectableCalendarProps {
+  meetingData: Meeting;
+}
+
+export default function DragSelectableCalendar({ meetingData }: DragSelectableCalendarProps) {
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [selectableTargets, setSelectableTargets] = useState<(string | HTMLElement | null)[]>([]);
   const [selectedIndices, setSelectedIndices] = useState<Slot[]>([]);
   let tmpSelectedIndices = [...selectedIndices];
+  const { startDay, endDay, startTime, endTime } = meetingData;
 
   console.log('selectedIndices', selectedIndices);
 
@@ -26,10 +30,7 @@ export default function DragSelectableCalendar() {
 
   // tmp variables before I hook up to db
   const startDate = new Date();
-  const endDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000);
-  const daysToDisplay = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
-  const startTime = '9:00';
-  const endTime = '17:00';
+  const daysToDisplay = Math.floor((endDay.getTime() - startDay.getTime()) / (1000 * 3600 * 24));
 
   const dayNamesFromStartDate = Array.from({ length: daysToDisplay }, (_, i) =>
     new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
@@ -119,18 +120,15 @@ export default function DragSelectableCalendar() {
         </div>
         <div className="timesContainer">
           <div className="timesOfDayContainer">
-            {Array.from(
-              { length: convertTimeStringToInt(endTime) - convertTimeStringToInt(startTime) },
-              (_, i) => (
-                <div className="timeOfDay" key={i}>
-                  {convertIntToTimeString(convertTimeStringToInt(startTime) + i)}
-                </div>
-              )
-            )}
+            {Array.from({ length: endTime - startTime }, (_, i) => (
+              <div className="timeOfDay" key={i}>
+                {convertIntToTimeString(startTime + i)}
+              </div>
+            ))}
           </div>
           <CalendarSlotsContainer
             daysToDisplay={daysToDisplay}
-            rowsToDisplay={convertTimeStringToInt(endTime) - convertTimeStringToInt(startTime)}
+            rowsToDisplay={endTime - startTime}
           />
         </div>
       </div>

@@ -1,18 +1,28 @@
-import React from 'react';
-import { prisma } from '@/db';
+'use client';
+
+import { useState, useEffect } from 'react';
 import DragSelectableCalendar from '@/components/DragSelectableCalendar/DragSelectableCalendar';
 import styles from './page.module.css';
 import SignInForm from '@/components/SignInForm/SignInForm';
+import { findMeetingById } from './utils';
+import { Meeting } from '@prisma/client';
 
-export default async function MeetingPage({ params }: { params: { id: string } }) {
-  let meetingData;
+export default function MeetingPage({ params }: { params: { id: string } }) {
+  const [meetingData, setMeetingData] = useState<Meeting | null>(null);
+  const [isLogged, setIsLogged] = useState(false);
 
-  if (params.id) {
-    meetingData = await prisma.meeting.findUnique({
-      where: {
-        id: params.id,
-      },
-    });
+  useEffect(() => {
+    if (params.id) {
+      const fetchData = async () => {
+        setMeetingData(await findMeetingById(params.id));
+      };
+
+      fetchData();
+    }
+  }, []);
+
+  if (!params.id || !meetingData) {
+    return <div>Meeting not found</div>;
   }
 
   return (
@@ -22,12 +32,16 @@ export default async function MeetingPage({ params }: { params: { id: string } }
         <div>
           <h2>Sign in to add your availability</h2>
           <div>
-            <SignInForm meetingId={params.id} />
+            {isLogged ? (
+              <DragSelectableCalendar meetingData={meetingData} />
+            ) : (
+              <SignInForm meetingId={params.id} />
+            )}
           </div>
         </div>
         <div className={styles.groupAvailability}>
           <h2>Group availability</h2>
-          <DragSelectableCalendar />
+          <DragSelectableCalendar meetingData={meetingData} />
         </div>
       </div>
     </div>
