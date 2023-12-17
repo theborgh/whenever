@@ -6,11 +6,16 @@ import CalendarSlotsContainer from './CalendarSlotsContainer/CalendarSlotsContai
 import './DragSelectableCalendar.css';
 import { convertIntToTimeString } from '@/utils';
 
+interface Slot {
+  dayIndex: number;
+  rowIndex: number;
+}
+
 export default function DragSelectableCalendar() {
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [selectableTargets, setSelectableTargets] = useState<(string | HTMLElement | null)[]>([]);
-  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
-  const tmpSelectedIndices = [...selectedIndices];
+  const [selectedIndices, setSelectedIndices] = useState<Slot[]>([]);
+  let tmpSelectedIndices = [...selectedIndices];
 
   console.log('selectedIndices', selectedIndices);
 
@@ -34,7 +39,7 @@ export default function DragSelectableCalendar() {
         // The area to drag selection element (default: container)
         dragContainer={window}
         // Targets to select. You can register a queryselector or an Element.
-        selectableTargets={['.element', document.querySelector('.target2') as HTMLElement]}
+        selectableTargets={['.element']}
         // Whether to select by click (default: true)
         selectByClick={true}
         // Whether to select from the target inside (default: true)
@@ -47,20 +52,29 @@ export default function DragSelectableCalendar() {
         keyContainer={window}
         // The rate at which the target overlaps the drag area to be selected. (default: 100)
         hitRate={0}
-        onSelect={(e) => {
-          e.added.forEach((el) => {
+        onSelect={(e: any) => {
+          e.added.forEach((el: HTMLElement) => {
             el.classList.toggle('selected');
-            tmpSelectedIndices.push(parseInt(el.dataset.testid.split('-')[2]));
+            const testid = el.dataset!.testid ?? 'invalid';
+            const testIdObj = {
+              dayIndex: Number(testid.split('-')[1]),
+              rowIndex: Number(testid.split('-')[3]),
+            };
+
+            tmpSelectedIndices = [...tmpSelectedIndices, testIdObj];
           });
-          e.removed.forEach((el) => {
+
+          e.removed.forEach((el: HTMLElement) => {
             el.classList.toggle('selected');
-            tmpSelectedIndices.splice(
-              tmpSelectedIndices.indexOf(parseInt(el.dataset.testid.split('-')[2])),
-              1
-            );
+            const testid = el.dataset!.testid ?? 'invalid';
+            const testIdObj = {
+              dayIndex: Number(testid.split('-')[1]),
+              rowIndex: Number(testid.split('-')[3]),
+            };
+            tmpSelectedIndices.splice(tmpSelectedIndices.indexOf(testIdObj), 1);
           });
         }}
-        onDragEnd={(e) => {
+        onDragEnd={() => {
           setSelectedIndices(tmpSelectedIndices);
         }}
       />

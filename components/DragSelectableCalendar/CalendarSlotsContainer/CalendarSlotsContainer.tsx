@@ -22,7 +22,11 @@ export default function CalendarSlotsContainer({ daysToDisplay, rowsToDisplay }:
       id="elements-container"
     >
       {Array.from({ length: daysToDisplay * rowsToDisplay }, (_, i) => (
-        <div data-testid={`grid-cell-${i}`} key={i} className={`element`} />
+        <div
+          data-testid={`day-${Math.floor(i / rowsToDisplay)}-cell-${i % rowsToDisplay}`}
+          key={i}
+          className={`element`}
+        />
       ))}
     </StyledCalendarSlotsContainer>
   );
