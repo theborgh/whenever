@@ -7,7 +7,6 @@ import { loginWithCredentials } from '@/components/SignInForm/utils';
 import { timezones, timezoneGuess } from '@/app/const';
 import styles from './SignInForm.module.css';
 import '@mantine/dates/styles.css';
-import { set } from 'zod';
 
 export interface LoginType {
   userName: string;
@@ -16,9 +15,10 @@ export interface LoginType {
 
 interface SignInProps {
   meetingId: string;
+  handleIsLogged: () => void;
 }
 
-export default function SignIn({ meetingId }: SignInProps) {
+export default function SignIn({ meetingId, handleIsLogged }: SignInProps) {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     initialValues: {
@@ -48,7 +48,7 @@ export default function SignIn({ meetingId }: SignInProps) {
     console.log('user data is: ', userData);
 
     if (userData) {
-      // change state, show selectable personal calendar on the left side and non-selectable group calendar on the right side
+      handleIsLogged();
     }
   };
 

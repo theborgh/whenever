@@ -6,10 +6,15 @@ import styles from './page.module.css';
 import SignInForm from '@/components/SignInForm/SignInForm';
 import { findMeetingById } from './utils';
 import { Meeting } from '@prisma/client';
+import GroupCalendar from '@/components/GroupCalendar/GroupCalendar';
 
 export default function MeetingPage({ params }: { params: { id: string } }) {
   const [meetingData, setMeetingData] = useState<Meeting | null>(null);
   const [isLogged, setIsLogged] = useState(false);
+
+  const handleIsLogged = () => {
+    setIsLogged(true);
+  };
 
   useEffect(() => {
     if (params.id) {
@@ -30,18 +35,18 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
       <h1 className={styles.meetingName}>Meeting times for {meetingData?.name}</h1>
       <div className={styles.meetingContainer}>
         <div>
-          <h2>Sign in to add your availability</h2>
+          <h2>{isLogged ? `Welcome, <User>` : 'Sign in to add your availability'}</h2>
           <div>
             {isLogged ? (
               <DragSelectableCalendar meetingData={meetingData} />
             ) : (
-              <SignInForm meetingId={params.id} />
+              <SignInForm meetingId={params.id} handleIsLogged={handleIsLogged} />
             )}
           </div>
         </div>
         <div className={styles.groupAvailability}>
           <h2>Group availability</h2>
-          <DragSelectableCalendar meetingData={meetingData} />
+          <GroupCalendar meeting={meetingData} />
         </div>
       </div>
     </div>

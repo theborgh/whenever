@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Selecto from 'react-selecto';
-import CalendarSlotsContainer from './CalendarSlotsContainer/CalendarSlotsContainer';
+import CalendarSlotsContainer from '../CalendarSlotsContainer/CalendarSlotsContainer';
 import './DragSelectableCalendar.css';
-import { convertIntToTimeString, convertTimeStringToInt } from '@/utils';
+import { convertIntToTimeString } from '@/utils';
 import { Meeting } from '@prisma/client';
 
 interface Slot {
@@ -51,7 +51,7 @@ export default function DragSelectableCalendar({ meetingData }: DragSelectableCa
         // The area to drag selection element (default: container)
         dragContainer={window}
         // Targets to select. You can register a queryselector or an Element.
-        selectableTargets={['.element']}
+        selectableTargets={['.draggable-cell']}
         // Whether to select by click (default: true)
         selectByClick={true}
         // Whether to select from the target inside (default: true)
@@ -129,6 +129,7 @@ export default function DragSelectableCalendar({ meetingData }: DragSelectableCa
           <CalendarSlotsContainer
             daysToDisplay={daysToDisplay}
             rowsToDisplay={endTime - startTime}
+            dragSelectable={true}
           />
         </div>
       </div>

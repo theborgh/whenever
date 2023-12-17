@@ -4,6 +4,7 @@ import styled from 'styled-components';
 interface Props {
   daysToDisplay: number;
   rowsToDisplay: number;
+  dragSelectable?: boolean;
 }
 
 const StyledCalendarSlotsContainer = styled.div<{ $daysToDisplay: number; $rowsToDisplay: number }>`
@@ -14,7 +15,11 @@ const StyledCalendarSlotsContainer = styled.div<{ $daysToDisplay: number; $rowsT
   gap: 0px 0px;
 `;
 
-export default function CalendarSlotsContainer({ daysToDisplay, rowsToDisplay }: Props) {
+export default function CalendarSlotsContainer({
+  daysToDisplay,
+  rowsToDisplay,
+  dragSelectable,
+}: Props) {
   return (
     <StyledCalendarSlotsContainer
       $daysToDisplay={daysToDisplay}
@@ -25,7 +30,7 @@ export default function CalendarSlotsContainer({ daysToDisplay, rowsToDisplay }:
         <div
           data-testid={`day-${Math.floor(i / rowsToDisplay)}-cell-${i % rowsToDisplay}`}
           key={i}
-          className={`element`}
+          className={`${dragSelectable ? 'draggable-cell' : 'cell'}`}
         />
       ))}
     </StyledCalendarSlotsContainer>
