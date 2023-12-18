@@ -4,17 +4,17 @@ import { User } from '@prisma/client';
 import { Slot } from './utils';
 
 export const setInitialSelectedIndicesForUser = (user: User, meetingData: any): Slot[] => {
-  console.log('PARAMS: ', user, meetingData)
+  console.info('[setInitialSelectedIndicesForUser PARAMS]: user: ', user, 'meetingData is: ', meetingData)
   const result: Slot[] = []; // each Slot is an object with a dayIndex and a slotArray
 
-  if(!meetingData.users.find((u: any) => u.id === user.id)) return [];
+  if(!meetingData.users.find((u: any) => u.id === user.id)) { console.log('user not found'); return [];}
 
-  const timeSlotsForUser = meetingData.users.find((u: any) => u.id === user.id).availability.timeSlots;
+  const timeSlotsForUser = meetingData.users.find((u: any) => u.id === user.id).availability.timeRanges;
   
   // iterate through the timeslots and add the dayIndex and slotIndex to the result array.
   // timeRanges[i].day is the timestamp for the slot, the starting day of the meeting is in meetingData.startDay
 
-  if(!timeSlotsForUser) return [];
+  if(!timeSlotsForUser) { console.log('cannot find timeslots for user'); return []; }
   
   timeSlotsForUser.forEach((timeSlot: any) => {
     const slotsToPush: number[] = [];

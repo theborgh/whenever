@@ -3,7 +3,7 @@ import { timezones } from '@/app/const';
 
 export const schema = z
 .object({
-  meetingName: z.string().min(2, { message: 'Name should have at least 2 letters' }),
+  meetingName: z.string().min(1, { message: 'Name should have at least 1 letter' }),
   dateRange: z.array(z.date().nullable()).refine((arr) => arr && arr[0] !== null, {
     message: 'First date cannot be null',
     path: ['dateRange'],

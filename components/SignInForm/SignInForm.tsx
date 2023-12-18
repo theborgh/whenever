@@ -46,8 +46,6 @@ export default function SignIn({ meetingId, handleIsLogged }: SignInProps) {
       setIsLoading(false);
     }
 
-    console.log('user data is: ', userData);
-
     if (userData) {
       handleIsLogged(userData);
     }

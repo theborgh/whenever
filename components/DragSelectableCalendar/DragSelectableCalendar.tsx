@@ -26,15 +26,15 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
 
   useEffect(() => {
     if (meetingData.users && meetingData.users.length) {
-      const res = setInitialSelectedIndicesForUser(user, meetingData);
       console.log(
         'setting the initial selected indices for user: ',
         user.name,
         ', meetingData.users[user] is: ',
-        meetingData.users.find((u: User) => u.id === user.id),
-        'SETTING TO: ',
-        res
+        meetingData.users.find((u: User) => u.id === user.id)
       );
+      const res = setInitialSelectedIndicesForUser(user, meetingData);
+      console.log('SETTING INDICES TO: ', res);
+
       setSelectedIndices(res);
     }
   }, [user, meetingData]);

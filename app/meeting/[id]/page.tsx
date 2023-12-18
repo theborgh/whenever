@@ -22,7 +22,7 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
       const fetchData = async () => {
         setMeetingData(await findMeetingById(params.id));
 
-        console.log('meeting data is: ', meetingData);
+        console.log('[debugToggle]: meeting data is: ', meetingData);
       };
 
       fetchData();
