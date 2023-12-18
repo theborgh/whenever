@@ -5,7 +5,7 @@ import './DragSelectableCalendar.css';
 import { convertIntToTimeString } from '@/utils';
 import { Meeting, User } from '@prisma/client';
 import { Slot, updateTimeslots } from './utils';
-import { setInitialSelectedIndicesForUser } from './clientUtils';
+import { setInitialSelectedIndicesForUser } from '../../utils/calendar';
 
 interface DragSelectableCalendarProps {
   meetingData: any; // TODO: type this
@@ -28,8 +28,6 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
   useEffect(() => {
     if (meetingData.users && meetingData.users.length) {
       initialIndices = setInitialSelectedIndicesForUser(user, meetingData);
-      console.log('SETTING INDICES TO: ', initialIndices);
-
       setSelectedIndices(initialIndices);
     }
   }, [user, meetingData]);

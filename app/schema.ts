@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { timezones } from '@/app/utils/const';
+import { timezones } from '@/utils/const';
 
 export const schema = z
 .object({

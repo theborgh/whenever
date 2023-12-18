@@ -23,8 +23,6 @@ export default function CalendarSlotsContainer({
   dragSelectable,
   initialSlots,
 }: Props) {
-  console.log('initialSlots: ', initialSlots);
-
   return (
     <StyledCalendarSlotsContainer
       $daysToDisplay={daysToDisplay}

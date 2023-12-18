@@ -1,14 +1,25 @@
 import React from 'react';
-import { Meeting } from '@prisma/client';
+import { Meeting, TimeSlot, User, UserAvailability } from '@prisma/client';
 import CalendarSlotsContainer from '../CalendarSlotsContainer/CalendarSlotsContainer';
 import { convertIntToTimeString } from '@/utils';
+import { setInitialSelectedIndicesForUser } from '@/utils/calendar';
+
+type AvailabilityWithTimeslots = UserAvailability & { timeRanges: TimeSlot[] };
+type UserWithAvailability = User & { availability: AvailabilityWithTimeslots };
+type MeetingData = Meeting & { users: UserWithAvailability[] };
 
 interface GroupCalendarProps {
-  meeting: Meeting;
+  meeting: MeetingData;
 }
 
 export default function GroupCalendar({ meeting }: GroupCalendarProps) {
   const { startDay, endDay, startTime, endTime } = meeting;
+
+  console.log(`[GROUP CALENDAR] has ${meeting.users.length} users`);
+
+  meeting.users.forEach((user) => {
+    console.log(`[GROUP CALENDAR] user ${user.name} has timeslots: `, user.availability.timeRanges);
+  });
 
   const daysToDisplay = Math.floor((endDay.getTime() - startDay.getTime()) / (1000 * 3600 * 24));
   const dayNamesFromStartDate = Array.from({ length: daysToDisplay }, (_, i) =>
