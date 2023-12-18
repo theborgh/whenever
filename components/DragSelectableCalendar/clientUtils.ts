@@ -20,7 +20,7 @@ export const setInitialSelectedIndicesForUser = (user: User, meetingData: any): 
     const slotsToPush: number[] = [];
     const dayIndex = Math.floor((timeSlot.day - meetingData.startDay) / (24 * 60 * 60 * 1000));
 
-    for (let i = timeSlot.startTime; i <= timeSlot.endTime; i++) {
+    for (let i = timeSlot.startTime; i < timeSlot.endTime; i++) {
       slotsToPush.push(i);
     }
 

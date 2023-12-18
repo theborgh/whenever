@@ -18,6 +18,7 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
   const [selectedIndices, setSelectedIndices] = useState<Slot[]>([]);
   const { startDay, endDay, startTime, endTime } = meetingData;
   let tmpSelectedIndices = [...selectedIndices];
+  let initialIndices: Slot[] = [];
 
   useEffect(() => {
     setContainer(document.body);
@@ -26,16 +27,10 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
 
   useEffect(() => {
     if (meetingData.users && meetingData.users.length) {
-      console.log(
-        'setting the initial selected indices for user: ',
-        user.name,
-        ', meetingData.users[user] is: ',
-        meetingData.users.find((u: User) => u.id === user.id)
-      );
-      const res = setInitialSelectedIndicesForUser(user, meetingData);
-      console.log('SETTING INDICES TO: ', res);
+      initialIndices = setInitialSelectedIndicesForUser(user, meetingData);
+      console.log('SETTING INDICES TO: ', initialIndices);
 
-      setSelectedIndices(res);
+      setSelectedIndices(initialIndices);
     }
   }, [user, meetingData]);
 
@@ -140,7 +135,8 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
             daysToDisplay={daysToDisplay}
             rowsToDisplay={endTime - startTime}
             dragSelectable={true}
-            meetingData={meetingData}
+            initialSlots={selectedIndices}
+            initialTime={startTime}
           />
         </div>
       </div>

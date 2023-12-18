@@ -24,7 +24,5 @@ export const findMeetingById = async (meetingId: string) => {
     },
   });
 
-  console.log('result: ', result);
-
   return result;
 };
