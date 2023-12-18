@@ -136,7 +136,6 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
             rowsToDisplay={endTime - startTime}
             dragSelectable={true}
             initialSlots={selectedIndices}
-            initialTime={startTime}
           />
         </div>
       </div>

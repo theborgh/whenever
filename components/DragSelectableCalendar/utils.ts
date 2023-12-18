@@ -1,6 +1,6 @@
 'use server';
 import { prisma } from '@/db';
-import { Meeting, User } from '@prisma/client';
+import { Meeting } from '@prisma/client';
 
 export interface Slot {
   dayIndex: number;
@@ -36,7 +36,7 @@ const constructTimeSlots = (meeting: Meeting, selectedIndices: Slot[]) => {
     }, []);
     return aggregatedSlots;
   }).flat();
-
+  
   return aggregatedTimeSlots;
 }
 

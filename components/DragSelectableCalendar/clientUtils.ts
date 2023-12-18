@@ -5,7 +5,7 @@ import { Slot } from './utils';
 
 export const setInitialSelectedIndicesForUser = (user: User, meetingData: any): Slot[] => {
   console.info('[setInitialSelectedIndicesForUser PARAMS]: user: ', user, 'meetingData is: ', meetingData)
-  const result: Slot[] = []; // each Slot is an object with a dayIndex and a slotArray
+  const result: Slot[] = [];
 
   if(!meetingData.users.find((u: any) => u.id === user.id)) { console.log('user not found'); return [];}
 
@@ -26,11 +26,11 @@ export const setInitialSelectedIndicesForUser = (user: User, meetingData: any): 
 
     const slot = result.find((s) => s.dayIndex === dayIndex);
     if (slot) {
-      slot.slotArray.push(...slotsToPush);
+      slot.slotArray = Array.from(new Set([...slot.slotArray, ...slotsToPush]));
     } else {
       result.push({
         dayIndex,
-        slotArray: [...slotsToPush],
+        slotArray: Array.from(new Set([...slotsToPush])),
       });
     }
   });

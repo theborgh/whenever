@@ -6,7 +6,7 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
 import { DatePicker } from '@mantine/dates';
 import { schema, EmptyMeetingType } from '@/app/schema';
-import { timezones, timezoneGuess } from '@/app/const';
+import { timezones, timezoneGuess } from '@/app/utils/const';
 import { createEmptyMeeting } from './utils';
 import { useRouter } from 'next/navigation';
 import styles from './CreateNewMeetingForm.module.css';

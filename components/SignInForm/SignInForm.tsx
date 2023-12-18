@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Box, Select, TextInput, PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { loginWithCredentials } from '@/components/SignInForm/utils';
-import { timezones, timezoneGuess } from '@/app/const';
+import { timezones, timezoneGuess } from '@/app/utils/const';
 import styles from './SignInForm.module.css';
 import '@mantine/dates/styles.css';
 import { User } from '@prisma/client';

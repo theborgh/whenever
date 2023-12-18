@@ -7,7 +7,6 @@ interface Props {
   rowsToDisplay: number;
   dragSelectable?: boolean;
   initialSlots?: any; // TODO: type this
-  initialTime: number;
 }
 
 const StyledCalendarSlotsContainer = styled.div<{ $daysToDisplay: number; $rowsToDisplay: number }>`
@@ -23,7 +22,6 @@ export default function CalendarSlotsContainer({
   rowsToDisplay,
   dragSelectable,
   initialSlots,
-  initialTime,
 }: Props) {
   console.log('initialSlots: ', initialSlots);
 
