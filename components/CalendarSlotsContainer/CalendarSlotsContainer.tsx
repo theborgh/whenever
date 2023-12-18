@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { isInitiallySelected } from './utils';
 
 interface Props {
   daysToDisplay: number;
@@ -33,9 +32,7 @@ export default function CalendarSlotsContainer({
         <div
           data-testid={`day-${Math.floor(i / rowsToDisplay)}-cell-${i % rowsToDisplay}`}
           key={i}
-          className={`${dragSelectable ? 'draggable-cell' : 'cell'} ${
-            isInitiallySelected(i, daysToDisplay, rowsToDisplay, meetingData) && 'selected'
-          }`}
+          className={`${dragSelectable ? 'draggable-cell' : 'cell'}`}
         />
       ))}
     </StyledCalendarSlotsContainer>

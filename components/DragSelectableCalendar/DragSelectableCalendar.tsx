@@ -5,6 +5,7 @@ import './DragSelectableCalendar.css';
 import { convertIntToTimeString } from '@/utils';
 import { Meeting, User } from '@prisma/client';
 import { Slot, updateTimeslots } from './utils';
+import { setInitialSelectedIndicesForUser } from './clientUtils';
 
 interface DragSelectableCalendarProps {
   meetingData: any; // TODO: type this
@@ -15,13 +16,28 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [selectableTargets, setSelectableTargets] = useState<(string | HTMLElement | null)[]>([]);
   const [selectedIndices, setSelectedIndices] = useState<Slot[]>([]);
-  let tmpSelectedIndices = [...selectedIndices];
   const { startDay, endDay, startTime, endTime } = meetingData;
+  let tmpSelectedIndices = [...selectedIndices];
 
   useEffect(() => {
     setContainer(document.body);
-    setSelectableTargets(['.target', document.querySelector('.target2') as HTMLElement]);
+    setSelectableTargets(['.draggable-cell']); // TODO: may be able to remove this
   }, []);
+
+  useEffect(() => {
+    if (meetingData.users && meetingData.users.length) {
+      const res = setInitialSelectedIndicesForUser(user, meetingData);
+      console.log(
+        'setting the initial selected indices for user: ',
+        user.name,
+        ', meetingData.users[user] is: ',
+        meetingData.users.find((u: User) => u.id === user.id),
+        'SETTING TO: ',
+        res
+      );
+      setSelectedIndices(res);
+    }
+  }, [user, meetingData]);
 
   const daysToDisplay = Math.floor((endDay.getTime() - startDay.getTime()) / (1000 * 3600 * 24));
   const dayNamesFromStartDate = Array.from({ length: daysToDisplay }, (_, i) =>

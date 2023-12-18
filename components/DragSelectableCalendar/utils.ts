@@ -1,6 +1,6 @@
 'use server';
 import { prisma } from '@/db';
-import { Meeting } from '@prisma/client';
+import { Meeting, User } from '@prisma/client';
 
 export interface Slot {
   dayIndex: number;
@@ -68,3 +68,4 @@ export const updateTimeslots = async (meeting: Meeting, userId: string, selected
 
   return result;
 }
+
