@@ -80,7 +80,9 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
               const slot = tmpSelectedIndices.splice(slotIndex, 1)[0];
               const dayObj: Slot = {
                 dayIndex: dayIndex,
-                slotArray: [...slot.slotArray, rowIndex].sort((a, b) => a - b),
+                slotArray: slot.slotArray.includes(rowIndex)
+                  ? slot.slotArray.filter((el) => el !== rowIndex)
+                  : [...slot.slotArray, rowIndex].sort((a, b) => a - b),
               };
 
               tmpSelectedIndices.push(dayObj);
@@ -99,6 +101,7 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
             const testid = el.dataset!.testid ?? 'invalid';
             const dayIndex = Number(testid.split('-')[1]);
             const rowIndex = Number(testid.split('-')[3]);
+
             const slotIndex = tmpSelectedIndices.findIndex((slot) => slot.dayIndex === dayIndex);
 
             tmpSelectedIndices[slotIndex].slotArray.splice(
