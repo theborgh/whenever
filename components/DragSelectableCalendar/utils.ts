@@ -59,8 +59,8 @@ export const updateTimeslots = async (meeting: Meeting, userId: string, selected
   result = await prisma.timeSlot.createMany({
     data: timeSlots.map((slot) => ({
       day: slot.day,
-      startTime: slot.startTime + meeting.startTime,
-      endTime: slot.endTime + meeting.startTime,
+      startTime: slot.startTime,
+      endTime: slot.endTime,
       availabilityId: userId,
     })),
     skipDuplicates: true,

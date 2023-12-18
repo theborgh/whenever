@@ -38,11 +38,8 @@ export default function CalendarSlotsContainer({
           data-testid={`day-${Math.floor(i / rowsToDisplay)}-cell-${i % rowsToDisplay}`}
           key={i}
           className={`${dragSelectable ? 'draggable-cell' : 'cell'} ${
-            isSlotSelected(
-              Math.floor(i / rowsToDisplay),
-              (i % rowsToDisplay) + initialTime,
-              initialSlots
-            ) && 'selected'
+            isSlotSelected(Math.floor(i / rowsToDisplay), i % rowsToDisplay, initialSlots) &&
+            'selected'
           }`}
         />
       ))}
