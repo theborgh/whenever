@@ -3,8 +3,9 @@ import Selecto from 'react-selecto';
 import CalendarSlotsContainer from '../CalendarSlotsContainer/CalendarSlotsContainer';
 import './DragSelectableCalendar.css';
 import { convertIntToTimeString } from '@/utils';
-import { Meeting, User } from '@prisma/client';
-import { Slot, updateTimeslots } from './utils';
+import { Slot, UserSlots } from '@/utils/types';
+import { User } from '@prisma/client';
+import { updateTimeslots } from './utils';
 import { setInitialSelectedIndicesForUser } from '../../utils/calendar';
 
 interface DragSelectableCalendarProps {
@@ -19,6 +20,11 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
   const { startDay, endDay, startTime, endTime } = meetingData;
   let tmpSelectedIndices = [...selectedIndices];
   let initialIndices: Slot[] = [];
+
+  const userSlots: UserSlots = {
+    userId: user.id,
+    slots: initialIndices,
+  };
 
   useEffect(() => {
     setContainer(document.body);
@@ -40,7 +46,6 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
       month: 'short',
     })
   );
-  dayNamesFromStartDate.unshift('Time');
 
   if (!container || !selectableTargets.length) return null;
 
@@ -110,8 +115,6 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
         }}
         onDragEnd={() => {
           setSelectedIndices(tmpSelectedIndices);
-          // save to db
-
           updateTimeslots(meetingData, user.id, tmpSelectedIndices);
         }}
       />
@@ -136,7 +139,7 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
             daysToDisplay={daysToDisplay}
             rowsToDisplay={endTime - startTime}
             dragSelectable={true}
-            initialSlots={selectedIndices}
+            initialSlots={[{ userId: user.id, slots: selectedIndices }]} // TODO: type this
           />
         </div>
       </div>

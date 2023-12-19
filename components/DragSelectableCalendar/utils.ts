@@ -1,11 +1,8 @@
 'use server';
 import { prisma } from '@/db';
 import { Meeting } from '@prisma/client';
+import { Slot } from '@/utils/types';
 
-export interface Slot {
-  dayIndex: number;
-  slotArray: number[];
-}
 
 const constructTimeSlots = (meeting: Meeting, selectedIndices: Slot[]) => {
   const timeSlots = selectedIndices.map((slot) => {

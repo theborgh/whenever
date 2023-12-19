@@ -29,7 +29,6 @@ export default function GroupCalendar({ meeting }: GroupCalendarProps) {
       month: 'short',
     })
   );
-  dayNamesFromStartDate.unshift('Time');
 
   return (
     <div className="calendarContainer">
