@@ -1,6 +1,6 @@
 import { Slot, UserSlots } from '@/utils/types'
 
-export const isSlotSelected = (dayIndex: number, slotIndex: number,  initialSlots: UserSlots[]): boolean => {
+export const isSlotSelected = (dayIndex: number, slotIndex: number, initialSlots: UserSlots[]): boolean => {
 
   // for single user (interactive calendar)
   if (initialSlots && initialSlots.length === 1) {
