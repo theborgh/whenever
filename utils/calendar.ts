@@ -1,7 +1,7 @@
 'use client';
 
 import { User } from '@prisma/client';
-import { Slot } from '../components/DragSelectableCalendar/utils';
+import { Slot } from '@/utils/types';
 
 export const setInitialSelectedIndicesForUser = (user: User, meetingData: any): Slot[] => {
   console.info('[setInitialSelectedIndicesForUser PARAMS]: user: ', user, 'meetingData is: ', meetingData)

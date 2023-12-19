@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { isSlotSelected } from './utils';
 import { UserSlots } from '@/utils/types';
@@ -7,7 +7,7 @@ interface Props {
   daysToDisplay: number;
   rowsToDisplay: number;
   dragSelectable?: boolean;
-  initialSlots?: UserSlots[];
+  initialSlots: UserSlots[];
 }
 
 const StyledCalendarSlotsContainer = styled.div<{ $daysToDisplay: number; $rowsToDisplay: number }>`
@@ -35,7 +35,7 @@ export default function CalendarSlotsContainer({
           data-testid={`day-${Math.floor(i / rowsToDisplay)}-cell-${i % rowsToDisplay}`}
           key={i}
           className={`${dragSelectable ? 'draggable-cell' : 'cell'} ${
-            isSlotSelected(Math.floor(i / rowsToDisplay), i % rowsToDisplay, initialSlots ?? []) && // TODO: remove ??
+            isSlotSelected(Math.floor(i / rowsToDisplay), i % rowsToDisplay, initialSlots) &&
             'selected'
           }`}
         />
