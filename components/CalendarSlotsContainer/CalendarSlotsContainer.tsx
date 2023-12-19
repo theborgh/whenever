@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { isSlotSelected } from './utils';
+import { countUsersAvailableInSlot } from './utils';
 import { UserSlots } from '@/utils/types';
 
 interface Props {
@@ -35,8 +35,11 @@ export default function CalendarSlotsContainer({
           data-testid={`day-${Math.floor(i / rowsToDisplay)}-cell-${i % rowsToDisplay}`}
           key={i}
           className={`${dragSelectable ? 'draggable-cell' : 'cell'} ${
-            isSlotSelected(Math.floor(i / rowsToDisplay), i % rowsToDisplay, initialSlots) &&
-            'selected'
+            countUsersAvailableInSlot(
+              Math.floor(i / rowsToDisplay),
+              i % rowsToDisplay,
+              initialSlots
+            ) && 'selected'
           }`}
         />
       ))}
