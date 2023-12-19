@@ -1,0 +1,11 @@
+.draggable-cell {
+  width: 80px;
+  height: 20px;
+  border: 1px solid black;
+}
+
+.cell {
+  width: 80px;
+  height: 20px;
+  border: 1px solid black;
+}

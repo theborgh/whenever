@@ -18,6 +18,10 @@ const StyledCalendarSlotsContainer = styled.div<{ $daysToDisplay: number; $rowsT
   gap: 0px 0px;
 `;
 
+const StyledCell = styled.div<{ $totalUsers: number; $availableUsers: number }>`
+  background-color: ${(props) => `rgba(63,255,0,${props.$availableUsers / props.$totalUsers})`};
+`;
+
 export default function CalendarSlotsContainer({
   daysToDisplay,
   rowsToDisplay,
@@ -31,16 +35,16 @@ export default function CalendarSlotsContainer({
       id="elements-container"
     >
       {Array.from({ length: daysToDisplay * rowsToDisplay }, (_, i) => (
-        <div
+        <StyledCell
+          $totalUsers={initialSlots.length}
+          $availableUsers={countUsersAvailableInSlot(
+            Math.floor(i / rowsToDisplay),
+            i % rowsToDisplay,
+            initialSlots
+          )}
           data-testid={`day-${Math.floor(i / rowsToDisplay)}-cell-${i % rowsToDisplay}`}
           key={i}
-          className={`${dragSelectable ? 'draggable-cell' : 'cell'} ${
-            countUsersAvailableInSlot(
-              Math.floor(i / rowsToDisplay),
-              i % rowsToDisplay,
-              initialSlots
-            ) && 'selected'
-          }`}
+          className={`${dragSelectable ? 'draggable-cell' : 'cell'}`}
         />
       ))}
     </StyledCalendarSlotsContainer>
