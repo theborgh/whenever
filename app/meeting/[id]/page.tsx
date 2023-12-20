@@ -18,31 +18,19 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
     setUser(userData);
   };
 
-  const handleUpdateMeeting = (slots: UserSlots) => {
-    console.log('[handleUpdateMeeting]: slots are: ', slots);
-
-    // setMeetingData((prev: any) => {
-    //   const newMeetingData = { ...prev };
-    //   const userIndex = newMeetingData.users.findIndex((u: User) => u.id === slots.userId);
-    //   newMeetingData.users[userIndex].availability.timeRanges = slots.slots;
-
-    //   console.log('[handleUpdateMeeting]: new meeting data is: ', newMeetingData);
-
-    //   return newMeetingData;
-    // });
+  const handleUpdateMeeting = async (user: User, slots: UserSlots) => {
+    setMeetingData(await findMeetingById(params.id));
   };
 
   useEffect(() => {
     if (params.id) {
       const fetchData = async () => {
         setMeetingData(await findMeetingById(params.id));
-
-        console.log('[debugToggle]: meeting data is: ', meetingData);
       };
 
       fetchData();
     }
-  }, [debugToggle]);
+  }, []);
 
   if (!params.id || !meetingData) {
     return <div>Meeting not found</div>;
