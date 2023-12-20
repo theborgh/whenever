@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Selecto from 'react-selecto';
 import CalendarSlotsContainer from '../CalendarSlotsContainer/CalendarSlotsContainer';
 import './DragSelectableCalendar.css';
@@ -11,25 +11,31 @@ import { setInitialSelectedIndicesForUser } from '../../utils/calendar';
 interface DragSelectableCalendarProps {
   meetingData: any; // TODO: type this
   user: User;
+  updateMeeting: (slots: UserSlots) => void;
 }
 
-export default function DragSelectableCalendar({ meetingData, user }: DragSelectableCalendarProps) {
+export default function DragSelectableCalendar({
+  meetingData,
+  user,
+  updateMeeting,
+}: DragSelectableCalendarProps) {
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [selectableTargets, setSelectableTargets] = useState<(string | HTMLElement | null)[]>([]);
   const [selectedIndices, setSelectedIndices] = useState<Slot[]>([]);
   const { startDay, endDay, startTime, endTime } = meetingData;
-  let tmpSelectedIndices = [...selectedIndices];
+  let tmpSelectedIndices = useMemo(() => [...selectedIndices], [selectedIndices]);
   let initialIndices: Slot[] = [];
-
-  const userSlots: UserSlots = {
-    userId: user.id,
-    slots: initialIndices,
-  };
 
   useEffect(() => {
     setContainer(document.body);
-    setSelectableTargets(['.draggable-cell']); // TODO: may be able to remove this
+    setSelectableTargets(['.draggable-cell']);
   }, []);
+
+  useEffect(() => {
+    if (selectedIndices.length) {
+      updateMeeting({ userId: user.id, slots: tmpSelectedIndices });
+    }
+  }, [tmpSelectedIndices]);
 
   useEffect(() => {
     if (meetingData.users && meetingData.users.length) {
@@ -73,6 +79,7 @@ export default function DragSelectableCalendar({ meetingData, user }: DragSelect
         onSelect={(e: any) => {
           e.added.forEach((el: HTMLElement) => {
             el.classList.toggle('selected');
+            console.dir(el);
             const testid = el.dataset!.testid ?? 'invalid';
             const dayIndex = Number(testid.split('-')[1]);
             const rowIndex = Number(testid.split('-')[3]);

@@ -9,3 +9,7 @@
   height: 20px;
   border: 1px solid black;
 }
+
+.selected {
+  background-color: rgb(120, 121, 120) !important;
+}

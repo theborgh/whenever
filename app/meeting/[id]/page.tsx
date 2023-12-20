@@ -5,16 +5,31 @@ import DragSelectableCalendar from '@/components/DragSelectableCalendar/DragSele
 import styles from './page.module.css';
 import SignInForm from '@/components/SignInForm/SignInForm';
 import { findMeetingById } from './utils';
-import { Meeting, User } from '@prisma/client';
+import { UserSlots } from '@/utils/types';
+import { User } from '@prisma/client';
 import GroupCalendar from '@/components/GroupCalendar/GroupCalendar';
 
 export default function MeetingPage({ params }: { params: { id: string } }) {
-  const [meetingData, setMeetingData] = useState<any>(null); // TODO: Meeting | null or return type of prismas findMeetingById
+  const [meetingData, setMeetingData] = useState<any>(null); // TODO: type this
   const [user, setUser] = useState<User | null>(null);
   const [debugToggle, setDebugToggle] = useState(false); // TODO: remove this, just for testing
 
   const handleIsLogged = (userData: User) => {
     setUser(userData);
+  };
+
+  const handleUpdateMeeting = (slots: UserSlots) => {
+    console.log('[handleUpdateMeeting]: slots are: ', slots);
+
+    // setMeetingData((prev: any) => {
+    //   const newMeetingData = { ...prev };
+    //   const userIndex = newMeetingData.users.findIndex((u: User) => u.id === slots.userId);
+    //   newMeetingData.users[userIndex].availability.timeRanges = slots.slots;
+
+    //   console.log('[handleUpdateMeeting]: new meeting data is: ', newMeetingData);
+
+    //   return newMeetingData;
+    // });
   };
 
   useEffect(() => {
@@ -40,14 +55,20 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
       <div className={styles.meetingContainer}>
         <div>
           <h2>{user ? `Welcome, ${user.name}` : 'Sign in to add your availability'}</h2>
-          <p>
-            Click and drag the boxes below to select the times you are available for this meeting.
-            Then share the link to this page so everyone can do the same! This way, you'll see at a
-            glance when everyone is available.
-          </p>
+          {user && (
+            <p>
+              Click and drag the boxes below to select the times you are available for this meeting.
+              Then share the link to this page so everyone can do the same! This way, you'll see at
+              a glance when everyone is available.
+            </p>
+          )}
           <div>
             {user ? (
-              <DragSelectableCalendar meetingData={meetingData} user={user} />
+              <DragSelectableCalendar
+                meetingData={meetingData}
+                user={user}
+                updateMeeting={handleUpdateMeeting}
+              />
             ) : (
               <SignInForm meetingId={params.id} handleIsLogged={handleIsLogged} />
             )}
