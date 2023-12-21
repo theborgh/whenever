@@ -6,11 +6,13 @@
 
 .meetingName {
   text-align: center;
+  margin-bottom: 0.2em;
 }
 
-.groupAvailability {
-  /* display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: center; */
+.copyLink {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
 }

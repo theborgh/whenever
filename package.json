@@ -24,6 +24,7 @@
     "@mantine/dates": "^7.3.2",
     "@mantine/form": "^7.3.2",
     "@mantine/hooks": "7.3.2",
+    "@mantine/notifications": "^7.3.2",
     "@next/bundle-analyzer": "^14.0.1",
     "@prisma/client": "^5.7.0",
     "@tabler/icons-react": "^2.40.0",

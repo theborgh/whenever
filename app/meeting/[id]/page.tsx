@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { notifications } from '@mantine/notifications';
 import DragSelectableCalendar from '@/components/DragSelectableCalendar/DragSelectableCalendar';
 import styles from './page.module.css';
 import SignInForm from '@/components/SignInForm/SignInForm';
@@ -18,31 +19,32 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
     setUser(userData);
   };
 
-  const handleUpdateMeeting = (slots: UserSlots) => {
-    console.log('[handleUpdateMeeting]: slots are: ', slots);
-
-    // setMeetingData((prev: any) => {
-    //   const newMeetingData = { ...prev };
-    //   const userIndex = newMeetingData.users.findIndex((u: User) => u.id === slots.userId);
-    //   newMeetingData.users[userIndex].availability.timeRanges = slots.slots;
-
-    //   console.log('[handleUpdateMeeting]: new meeting data is: ', newMeetingData);
-
-    //   return newMeetingData;
-    // });
+  const handleUpdateMeeting = async (user: User, slots: UserSlots) => {
+    setMeetingData(await findMeetingById(params.id));
   };
 
   useEffect(() => {
     if (params.id) {
       const fetchData = async () => {
         setMeetingData(await findMeetingById(params.id));
-
-        console.log('[debugToggle]: meeting data is: ', meetingData);
       };
 
       fetchData();
     }
-  }, [debugToggle]);
+  }, []);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+
+      notifications.show({
+        title: 'Copied to clipboard',
+        message: `The link for ${meetingData?.name} has been copied to your clipboard.`,
+      });
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
 
   if (!params.id || !meetingData) {
     return <div>Meeting not found</div>;
@@ -52,6 +54,9 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
     <div>
       <button onClick={() => setDebugToggle(!debugToggle)}>Debug</button>
       <h1 className={styles.meetingName}>Meeting times for {meetingData?.name}</h1>
+      <div className={styles.copyLink} onClick={handleCopy}>
+        copy meeting link
+      </div>
       <div className={styles.meetingContainer}>
         <div>
           <h2>{user ? `Welcome, ${user.name}` : 'Sign in to add your availability'}</h2>

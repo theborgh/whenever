@@ -37,7 +37,7 @@ const constructTimeSlots = (meeting: Meeting, selectedIndices: Slot[]) => {
   return aggregatedTimeSlots;
 }
 
-export const updateTimeslots = async (meeting: Meeting, userId: string, selectedIndices: Slot[]) => {
+export const updateTimeslotsOnDB = async (meeting: Meeting, userId: string, selectedIndices: Slot[]) => {
   let result;
 
   // construct an array of TimeSlots from the selectedIndices and the meeting start date

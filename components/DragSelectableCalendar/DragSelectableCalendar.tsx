@@ -5,13 +5,13 @@ import './DragSelectableCalendar.css';
 import { convertIntToTimeString } from '@/utils';
 import { Slot, UserSlots } from '@/utils/types';
 import { User } from '@prisma/client';
-import { updateTimeslots } from './utils';
+import { updateTimeslotsOnDB } from './utils';
 import { setInitialSelectedIndicesForUser } from '../../utils/calendar';
 
 interface DragSelectableCalendarProps {
   meetingData: any; // TODO: type this
   user: User;
-  updateMeeting: (slots: UserSlots) => void;
+  updateMeeting: (user: User, slots: UserSlots) => void;
 }
 
 export default function DragSelectableCalendar({
@@ -30,12 +30,6 @@ export default function DragSelectableCalendar({
     setContainer(document.body);
     setSelectableTargets(['.draggable-cell']);
   }, []);
-
-  useEffect(() => {
-    if (selectedIndices.length) {
-      updateMeeting({ userId: user.id, slots: tmpSelectedIndices });
-    }
-  }, [tmpSelectedIndices]);
 
   useEffect(() => {
     if (meetingData.users && meetingData.users.length) {
@@ -79,7 +73,6 @@ export default function DragSelectableCalendar({
         onSelect={(e: any) => {
           e.added.forEach((el: HTMLElement) => {
             el.classList.toggle('selected');
-            console.dir(el);
             const testid = el.dataset!.testid ?? 'invalid';
             const dayIndex = Number(testid.split('-')[1]);
             const rowIndex = Number(testid.split('-')[3]);
@@ -122,7 +115,8 @@ export default function DragSelectableCalendar({
         }}
         onDragEnd={() => {
           setSelectedIndices(tmpSelectedIndices);
-          updateTimeslots(meetingData, user.id, tmpSelectedIndices);
+          updateTimeslotsOnDB(meetingData, user.id, tmpSelectedIndices);
+          updateMeeting(user, { userId: user.id, slots: tmpSelectedIndices });
         }}
       />
 
