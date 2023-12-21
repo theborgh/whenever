@@ -54,9 +54,9 @@ export default function GroupCalendar({ meeting }: GroupCalendarProps) {
       </StyledDayNamesContainer>
       <div className="timesContainer">
         <div className="timesOfDayContainer">
-          {Array.from({ length: endTime - startTime }, (_, i) => (
+          {Array.from({ length: (endTime - startTime) / 2 + 1 }, (_, i) => (
             <div className="timeOfDay" key={i}>
-              {convertIntToTimeString(startTime + i)}
+              {convertIntToTimeString(startTime + i * 2)}
             </div>
           ))}
         </div>
