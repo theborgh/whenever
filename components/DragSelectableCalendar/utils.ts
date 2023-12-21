@@ -2,7 +2,6 @@
 import { prisma } from '@/db';
 import { Meeting } from '@prisma/client';
 import { Slot } from '@/utils/types';
-import React from 'react';
 
 
 const constructTimeSlots = (meeting: Meeting, selectedIndices: Slot[]) => {

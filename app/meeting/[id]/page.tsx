@@ -81,6 +81,7 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
         </div>
         <div className={styles.groupAvailability}>
           <h2 className={styles.subtitle}>Group availability</h2>
+          <div className={styles.subtitle}>{meetingData.timezone} timezone</div>
           <GroupCalendar meeting={meetingData} />
         </div>
       </div>

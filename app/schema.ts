@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { timezones } from '@/utils/const';
+import { timezonesWithOffsets } from '@/utils/const';
 
 export const schema = z
 .object({
@@ -16,7 +16,9 @@ export const schema = z
   message: 'End time must be greater than start time',
   path: ['endTime'],
 })
-.refine((data) => timezones.includes(data.timezone), {
+.refine((data) => timezonesWithOffsets.map(
+  (el) => `${el.name} (GMT${el.offset > 0 ? '+' : ''}${el.offset})`
+).includes(data.timezone), {
   message: 'Invalid timezone: please pick from the list',
   path: ['timezone'],
 });

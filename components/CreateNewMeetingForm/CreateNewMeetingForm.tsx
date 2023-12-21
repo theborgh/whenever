@@ -6,7 +6,7 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { useForm } from '@mantine/form';
 import { DatePicker } from '@mantine/dates';
 import { schema, EmptyMeetingType } from '@/app/schema';
-import { timezones, timezoneGuess } from '@/utils/const';
+import { timezones, timezoneGuess, timezonesWithOffsets } from '@/utils/const';
 import { createEmptyMeeting } from './utils';
 import { useRouter } from 'next/navigation';
 import styles from './CreateNewMeetingForm.module.css';
@@ -15,13 +15,14 @@ import '@mantine/dates/styles.css';
 export default function CreateNewMeetingForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const timezoneGuessOffset = timezonesWithOffsets[timezones.indexOf(timezoneGuess)].offset;
   const form = useForm({
     initialValues: {
       meetingName: 'New meeting',
       dateRange: [new Date(), new Date(Date.now() + 6 * 24 * 60 * 60 * 1000)],
       startTime: '9:00',
       endTime: '17:00',
-      timezone: timezoneGuess,
+      timezone: timezoneGuess + ` (GMT${timezoneGuessOffset > 0 ? '+' : ''}${timezoneGuessOffset})`,
     },
     validate: zodResolver(schema),
     validateInputOnChange: true,
@@ -73,7 +74,11 @@ export default function CreateNewMeetingForm() {
             <Select
               label="Meeting timezone"
               placeholder="Type and select value"
-              data={[...timezones]}
+              data={[
+                ...timezonesWithOffsets.map(
+                  (el) => `${el.name} (GMT${el.offset > 0 ? '+' : ''}${el.offset})`
+                ),
+              ]}
               searchable
               {...form.getInputProps('timezone')}
             />

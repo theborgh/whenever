@@ -28,6 +28,7 @@
     "@next/bundle-analyzer": "^14.0.1",
     "@prisma/client": "^5.7.0",
     "@tabler/icons-react": "^2.40.0",
+    "@vercel/postgres": "^0.5.1",
     "dayjs": "^1.11.10",
     "mantine-form-zod-resolver": "^1.0.0",
     "moment-timezone": "^0.5.43",
