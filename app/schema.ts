@@ -17,7 +17,7 @@ export const schema = z
   path: ['endTime'],
 })
 .refine((data) => timezonesWithOffsets.map(
-  (el) => `${el.name} (GMT${el.offset > 0 ? '+' : ''}${el.offset})`
+  (el) => `${el.name} (GMT${el.offset >= 0 ? '+' : ''}${el.offset})`
 ).includes(data.timezone), {
   message: 'Invalid timezone: please pick from the list',
   path: ['timezone'],

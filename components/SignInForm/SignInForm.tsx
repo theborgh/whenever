@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Box, Select, TextInput, PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { loginWithCredentials } from '@/components/SignInForm/utils';
-import { timezones, timezoneGuess } from '@/utils/const';
+import { timezones, timezonesWithOffsets, timezoneGuess, timezoneGuessOffset } from '@/utils/const';
 import styles from './SignInForm.module.css';
 import '@mantine/dates/styles.css';
 import { User } from '@prisma/client';
@@ -24,12 +24,18 @@ export default function SignIn({ meetingId, handleIsLogged }: SignInProps) {
   const form = useForm({
     initialValues: {
       userName: '',
-      userTimezone: timezoneGuess,
+      userTimezone:
+        timezoneGuess + ` (GMT${timezoneGuessOffset >= 0 ? '+' : ''}${timezoneGuessOffset})`,
       userPassword: '',
     },
     validate: {
       userName: (value) => (value.trim().length > 0 ? null : 'Name is required'),
-      userTimezone: (value) => (timezones.includes(value) ? null : 'Timezone is required'),
+      userTimezone: (value) =>
+        timezonesWithOffsets
+          .map((el) => `${el.name} (GMT${el.offset >= 0 ? '+' : ''}${el.offset})`)
+          .includes(value)
+          ? null
+          : 'Timezone is required',
     },
     validateInputOnChange: true,
   });
@@ -68,7 +74,11 @@ export default function SignIn({ meetingId, handleIsLogged }: SignInProps) {
               label="Preferred timezone"
               placeholder="Type and select value"
               description="Used to display times in your local timezone"
-              data={[...timezones]}
+              data={[
+                ...timezonesWithOffsets.map(
+                  (el) => `${el.name} (GMT${el.offset >= 0 ? '+' : ''}${el.offset})`
+                ),
+              ]}
               searchable
               {...form.getInputProps('userTimezone')}
             />
