@@ -1,16 +1,16 @@
 .container {
-  padding: 50px;
+  padding: 1em;
 }
 
 .draggable-cell {
   width: 80px;
-  height: 20px;
+  height: 10px;
   border: 1px solid black;
 }
 
 .cell {
   width: 80px;
-  height: 20px;
+  height: 10px;
   border: 1px solid black;
 }
 
@@ -26,8 +26,6 @@
 
 .dayName {
   text-align: center;
-  width: 80px;
-  font-size: smaller;
 }
 
 .timesContainer {
@@ -37,11 +35,11 @@
 
 .timesOfDayContainer {
   display: grid;
-  grid-template-rows: repeat(16, 20px);
+  grid-template-rows: repeat(16, 10px);
 }
 
 .timeOfDay {
-  height: 20px;
+  height: 10px;
   width: 80px;
   text-align: center;
 }

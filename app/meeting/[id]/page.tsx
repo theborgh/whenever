@@ -13,7 +13,6 @@ import GroupCalendar from '@/components/GroupCalendar/GroupCalendar';
 export default function MeetingPage({ params }: { params: { id: string } }) {
   const [meetingData, setMeetingData] = useState<any>(null); // TODO: type this
   const [user, setUser] = useState<User | null>(null);
-  const [debugToggle, setDebugToggle] = useState(false); // TODO: remove this, just for testing
 
   const handleIsLogged = (userData: User) => {
     setUser(userData);
@@ -52,21 +51,22 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
 
   return (
     <div>
-      <button onClick={() => setDebugToggle(!debugToggle)}>Debug</button>
       <h1 className={styles.meetingName}>Meeting times for {meetingData?.name}</h1>
       <div className={styles.copyLink} onClick={handleCopy}>
         copy meeting link
       </div>
+      {user && (
+        <p>
+          Click and drag the boxes below to select the times you are available for this meeting.
+          Then share the link to this page so everyone can do the same! This way, you'll see at a
+          glance when everyone is available.
+        </p>
+      )}
       <div className={styles.meetingContainer}>
         <div>
-          <h2>{user ? `Welcome, ${user.name}` : 'Sign in to add your availability'}</h2>
-          {user && (
-            <p>
-              Click and drag the boxes below to select the times you are available for this meeting.
-              Then share the link to this page so everyone can do the same! This way, you'll see at
-              a glance when everyone is available.
-            </p>
-          )}
+          <h2 className={styles.subtitle}>
+            {user ? `Welcome, ${user.name}` : 'Sign in to add your availability'}
+          </h2>
           <div>
             {user ? (
               <DragSelectableCalendar
@@ -80,7 +80,7 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
           </div>
         </div>
         <div className={styles.groupAvailability}>
-          <h2>Group availability</h2>
+          <h2 className={styles.subtitle}>Group availability</h2>
           <GroupCalendar meeting={meetingData} />
         </div>
       </div>

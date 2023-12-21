@@ -1,6 +1,7 @@
 .meetingContainer {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-around;
   gap: 1rem;
 }
 
@@ -15,4 +16,9 @@
   gap: 0.5rem;
   font-weight: bold;
   cursor: pointer;
+}
+
+.subtitle {
+  text-align: center;
+  margin-bottom: 0.2em;
 }

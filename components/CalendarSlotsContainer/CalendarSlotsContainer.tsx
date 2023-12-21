@@ -15,7 +15,7 @@ const StyledCalendarSlotsContainer = styled.div<{ $daysToDisplay: number; $rowsT
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: ${(props) => `repeat(${props.$daysToDisplay}, 1fr)`};
-  grid-template-rows: ${(props) => `repeat(${props.$rowsToDisplay}, 20px)`};
+  grid-template-rows: ${(props) => `repeat(${props.$rowsToDisplay}, 10px)`};
   gap: 0px 0px;
 `;
 

@@ -7,12 +7,22 @@ import { Slot, UserSlots } from '@/utils/types';
 import { User } from '@prisma/client';
 import { updateTimeslotsOnDB } from './utils';
 import { setInitialSelectedIndicesForUser } from '../../utils/calendar';
+import styled from 'styled-components';
 
 interface DragSelectableCalendarProps {
   meetingData: any; // TODO: type this
   user: User;
   updateMeeting: (user: User, slots: UserSlots) => void;
 }
+
+const StyledContainer = styled.div<{ $daysToDisplay: number }>`
+  width: ${(props) => `${(props.$daysToDisplay + 1) * 80}px`};
+`;
+
+const StyledDayNamesContainer = styled.div<{ $daysToDisplay: number }>`
+  display: flex;
+  width: ${(props) => `${(props.$daysToDisplay + 1) * 80}px`};
+`;
 
 export default function DragSelectableCalendar({
   meetingData,
@@ -46,11 +56,12 @@ export default function DragSelectableCalendar({
       month: 'short',
     })
   );
+  dayNamesFromStartDate.unshift('');
 
   if (!container || !selectableTargets.length) return null;
 
   return (
-    <div className="container">
+    <StyledContainer $daysToDisplay={daysToDisplay} className="container">
       <Selecto
         // The container to add a selection element
         container={document?.body}
@@ -121,13 +132,16 @@ export default function DragSelectableCalendar({
       />
 
       <div className="calendarContainer">
-        <div className="dayNamesContainer">
+        <StyledDayNamesContainer $daysToDisplay={daysToDisplay}>
           {dayNamesFromStartDate.map((day, i) => (
-            <div className="dayName" key={i}>
-              {day}
+            <div style={{ width: '80px' }} key={i}>
+              <div className="dayName">{day.split(' ')[0]}</div>
+              <div className="dayName">
+                {day.split(' ')[1]} {day.split(' ')[2]}
+              </div>
             </div>
           ))}
-        </div>
+        </StyledDayNamesContainer>
         <div className="timesContainer">
           <div className="timesOfDayContainer">
             {Array.from({ length: endTime - startTime }, (_, i) => (
@@ -144,6 +158,6 @@ export default function DragSelectableCalendar({
           />
         </div>
       </div>
-    </div>
+    </StyledContainer>
   );
 }
