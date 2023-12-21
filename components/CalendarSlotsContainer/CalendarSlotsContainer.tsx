@@ -19,8 +19,10 @@ const StyledCalendarSlotsContainer = styled.div<{ $daysToDisplay: number; $rowsT
   gap: 0px 0px;
 `;
 
-const StyledCell = styled.div<{ $totalUsers: number; $availableUsers: number }>`
+const StyledCell = styled.div<{ $totalUsers: number; $availableUsers: number; $rowIndex: number }>`
   background-color: ${(props) => `rgba(63,255,0,${props.$availableUsers / props.$totalUsers})`};
+  border-top: ${(props) => `${props.$rowIndex % 2 === 0 ? '1px solid #000' : 'none'}`};
+  border-bottom: ${(props) => `${props.$rowIndex % 2 === 1 ? '1px solid #000' : 'none'}`};
 `;
 
 export default function CalendarSlotsContainer({
@@ -43,6 +45,7 @@ export default function CalendarSlotsContainer({
             i % rowsToDisplay,
             initialSlots
           )}
+          $rowIndex={i % rowsToDisplay}
           data-testid={`day-${Math.floor(i / rowsToDisplay)}-cell-${i % rowsToDisplay}`}
           key={i}
           className={`${dragSelectable ? 'draggable-cell' : 'cell'}`}
